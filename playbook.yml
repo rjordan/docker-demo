@@ -1,0 +1,44 @@
+---
+- name: Global Playbook 
+  hosts: all
+  sudo: true
+  roles:
+    - role.ubuntu-updates
+    - role.ntp
+- name: Docker Playbook 
+  hosts: docker
+  sudo: true
+  roles:
+    - role.docker
+- name: VM Docker1 Playbook 
+  hosts: docker1
+  sudo: true
+  tasks:
+  - name: RabbitMQ
+    docker:
+      name: rabbitmq
+      image: rabbitmq:management
+      state: reloaded
+      docker_api_version: 1.18
+      ports:
+      - "15672:15672"
+- name: Load Balancer Playbook 
+  hosts: balancer
+  sudo: true
+  vars:
+    nginx_remove_default_vhost: true
+    nginx_upstreams: 
+      - name: rabbitmq
+        strategy: ip_hash
+        servers:
+          - 10.20.1.3:15672
+      - name: demoapp
+        strategy: ip_hash
+        servers:
+          - 10.20.1.3:7001
+  roles:
+    - geerlingguy.nginx
+  tasks:
+  - copy: src=vhosts.conf dest=/etc/nginx/sites-enabled/vhosts.conf
+  
+
