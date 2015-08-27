@@ -22,6 +22,15 @@
       docker_api_version: 1.18
       ports:
       - "15672:15672"
+  - name: chatter
+    docker:
+      name: chatter
+      image: rjordan/chatter:1.1
+      state: reloaded
+      docker_api_version: 1.18
+      ports:
+      - "3000:3000"
+      - "3001:3001"
 - name: Load Balancer Playbook 
   hosts: balancer
   sudo: true
@@ -35,7 +44,11 @@
       - name: demoapp
         strategy: ip_hash
         servers:
-          - 10.20.1.3:7001
+          - 10.20.1.3:3000
+      - name: demosock
+        strategy: ip_hash
+        servers:
+          - 10.20.1.3:3001
   roles:
     - geerlingguy.nginx
   tasks:

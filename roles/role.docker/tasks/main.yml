@@ -1,0 +1,22 @@
+---
+- name: Add Docker apt key
+  apt_key: id=36A1D7869245C8950F966E92D8576A8BA88D21E9 keyserver=hkp://keyserver.ubuntu.com:80 state=present
+
+- name: Add Docker PPA
+  apt_repository: repo='deb https://get.docker.io/ubuntu docker main' update_cache=yes
+
+- name: Install Docker
+  apt: pkg=lxc-docker state=latest 
+
+- name: Ensure docker is running
+  service: name=docker state=running enabled=yes
+
+- name: Install PIP
+  apt: pkg=python-pip state=latest 
+
+- name: Ensure latest PIP
+  pip: name=pip state=latest 
+  
+- name: Docker-Py
+  pip: name=docker-py state=latest 
+

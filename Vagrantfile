@@ -12,6 +12,8 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "balancer"
     node.vm.network :private_network, :ip => '10.20.1.2'
     node.vm.network "forwarded_port", guest: 80, host: 8080
+    node.vm.network "forwarded_port", guest: 81, host: 8081
+    node.vm.network "forwarded_port", guest: 3001, host: 3001
   end
 
   config.vm.define "docker1" do |node|

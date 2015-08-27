@@ -1,0 +1,7 @@
+---
+- name: NTP Playbook
+  apt: pkg=ntp state=latest
+ 
+- name: Ensure NTP Running
+  service: name=ntp state=running #enabled=yes
+
