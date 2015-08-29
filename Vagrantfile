@@ -11,15 +11,17 @@ Vagrant.configure(2) do |config|
   config.vm.define "balancer" do |node|
     node.vm.hostname = "balancer"
     node.vm.network :private_network, :ip => '10.20.1.2'
+    # For the default website
     node.vm.network "forwarded_port", guest: 80, host: 8080
-    node.vm.network "forwarded_port", guest: 81, host: 8081
-    # node.vm.network "forwarded_port", guest: 3001, host: 3001
+    # For the non-routed WS port
+    node.vm.network "forwarded_port", guest: 3001, host: 3001
+    # For RabbitMQ Management
+    node.vm.network "forwarded_port", guest: 15672, host: 8081
   end
 
   config.vm.define "docker1" do |node|
     node.vm.hostname = "docker1"
     node.vm.network :private_network, :ip => '10.20.1.3'
-    node.vm.network "forwarded_port", guest: 3001, host: 3001
   end
 
   config.vm.provision 'ansible', run: :always do |ansible|
@@ -28,6 +30,4 @@ Vagrant.configure(2) do |config|
     }
     ansible.playbook = 'playbook.yml'
   end
-
-
 end
