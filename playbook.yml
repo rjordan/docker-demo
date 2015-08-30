@@ -30,6 +30,8 @@
       docker_api_version: 1.18
       links:
       - "rabbitmq"
+#      env:
+#        WS_HOST: "127.0.0.1:8080/ws"      
       ports:
       - "3000:3000"
       - "3001:3001"
