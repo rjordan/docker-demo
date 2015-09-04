@@ -1,10 +1,4 @@
 ---
-- name: Global Playbook 
-  hosts: all
-  sudo: true
-  roles:
-    - role.ubuntu-updates
-    - role.ntp
 - name: Docker Playbook 
   hosts: docker
   sudo: true
