@@ -27,7 +27,7 @@ haproxy_defaults:
       - param: 'server'
         value: '50000ms'
   options:
-#    - httpclose
+    - httpclose
     - forwardfor except 127.0.0.0/8
     - redispatch
     - abortonclose

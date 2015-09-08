@@ -35,6 +35,14 @@
   roles:
    - role: ansible-haproxy
      haproxy_version: 1.5
+     haproxy_defaults:
+       options:
+#       - httpclose
+       - forwardfor except 127.0.0.0/8
+       - redispatch
+       - abortonclose
+       - httplog
+       - dontlognull
      haproxy_frontends:
      - name: 'http'
        ip: '*'
